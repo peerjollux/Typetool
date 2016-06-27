@@ -74,6 +74,7 @@ body{
 .fontStyle{
     padding: 30px 40px;
     cursor: pointer;
+    color: #383535;
 }
 
 .fontStyle:hover{
@@ -86,6 +87,25 @@ body{
     background: #F4FAFF;
 }
 
+.fontStyle.style-base{
+    padding-top: 0px;
+    padding-bottom: 0px;
+    height: 40px;
+    background: #EDE9E9;
+    line-height: 40px;
+}
+
+.fontStyle.style-base .styleDesc{
+        line-height: 40px;
+}
+
+.fontStyle.style-base:hover, .fontStyle.style-base.active{
+    background: #E2ECF4;
+}
+
+
+
+
 
 .styleDesc{
     font-size: 12px;
@@ -93,12 +113,11 @@ body{
     font-weight: 600;
     text-transform: uppercase;
     margin-bottom: 10px;
+    color: #B0AFAF;
 }
 
 .styleDesc .styleName{
     color: #383535;
+    margin-right: 10px;
 }
 
-.styleDesc .styleProps{
-    color: #B0AFAF;
-}

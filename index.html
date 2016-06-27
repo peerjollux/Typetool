@@ -38,10 +38,13 @@
     <div class="container" id="{{project}}">
         <style>{{compileStyle()}}</style>
         
-        <div ng-repeat="style in fontStyles" ng-click="editStyle(style)" ng-class="{active:isActive(style.id)}" class="fontStyle" >
+        <div ng-repeat="style in fontStyles" ng-click="editStyle(style)" ng-class="{active:isActive(style.id)}" class="fontStyle style-{{style.name}}" >
           <div class="styleDesc">
             <span class="styleName">{{style.name}}</span>
-            <span class="styleProp">{{style.fontSize}}REM / {{style.fontSize | emtopx:base.fontSize}}PX</span>
+            
+            <span class="styleProp" ng-if="style.name == 'base' ">{{style.fontSize}}PX</span>
+
+            <span class="styleProp" ng-if="style.name != 'base' ">{{style.fontSize}}REM / {{style.fontSize | emtopx:base.fontSize}}PX</span>
           </div>
           <div ng-bind-html="style.sample"> </div>
         </div>

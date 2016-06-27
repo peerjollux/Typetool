@@ -19,8 +19,8 @@
     
     $scope.init = function () {
       $scope.project = localStorageService.get('project') || [];
-      $scope.base = localStorageService.get('base') || [];
       $scope.fontStyles = localStorageService.get('fontStyles') || [];
+      $scope.base = $scope.fontStyles[0] || [];
       $scope.activeStyle = $scope.fontStyles[0] || [];
     }
     $scope.init();
@@ -64,6 +64,7 @@
     };
 
     $scope.editStyle = function(style){
+
       $scope.activeStyle = $scope.fontStyles[style.id];
     };
 
@@ -82,21 +83,26 @@
     $scope.compileStyle = function(){
 
       var css = '';
-
-      css += '#'+$scope.project;
-      css += '{';
-      css += 'font-size:'+$scope.base.fontSize+'px;';
-      css += '} ';
-     
+  
 
       for(var i = 0; i < $scope.fontStyles.length; i += 1){
-        
         var style = $scope.fontStyles[i];
-        css += '#'+$scope.project+' '+style.name;
-        css += '{';
-        css += 'font-size:'+style.fontSize+'em;';
-        css += 'line-height:'+style.lineHeight+'em;';
-        css += '} ';
+
+        css += '#'+$scope.project;
+
+        if(style.name == "base"){
+         css += style.name;
+          css += '{';
+          css += 'font-size:'+style.fontSize+'px;';
+          css += 'line-height:'+style.lineHeight+'em;';
+          css += '} ';
+        } else {
+          css += ' '+style.name;
+          css += '{';
+          css += 'font-size:'+style.fontSize+'em;';
+          css += 'line-height:'+style.lineHeight+'em;';
+          css += '} ';
+        }
       
       }
 
