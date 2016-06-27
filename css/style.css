@@ -9,10 +9,16 @@ html, body{
 }
 
 body{
-    font-family:Adelle-Sans, Helvetica, serif;
+    font-family: "adelle-sans",sans-serif;
+    font-style: normal;
+    font-weight: 400;
     background: #F5F5F5;
 }
 
+.wf-loading{
+    /* Hide the blog title and post titles while web fonts are loading */
+    visibility: hidden; 
+}
 
 
 .sidebar{
@@ -71,10 +77,28 @@ body{
 }
 
 .fontStyle:hover{
-    background: #F8FCFF;
+    background: #F4FAFF;
 }
 
 .fontStyle.active{
-    border-left: 4px solid #E3F0FF;
+    border-left: 4px solid #B2D7FF;
     padding-left: 36px;
+    background: #F4FAFF;
+}
+
+
+.styleDesc{
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.styleDesc .styleName{
+    color: #383535;
+}
+
+.styleDesc .styleProps{
+    color: #B0AFAF;
 }

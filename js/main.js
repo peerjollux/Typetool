@@ -2,10 +2,16 @@
   
   var app = angular.module('typetool', ['ngSanitize', 'LocalStorageModule']);
 
-  
+
+  ///////////////////////////////////
+  // CONFIGURE LOCALSTORAGE PLUGIN //
+  ///////////////////////////////////
+
   app.config(function(localStorageServiceProvider){
     localStorageServiceProvider.setPrefix('typetool');
   });
+
+
 
 
   app.controller('StyleController', ['$scope', '$sce', '$http', 'localStorageService', function($scope, $sce, $http, localStorageService) {
@@ -13,23 +19,22 @@
     
     $scope.init = function () {
       $scope.project = localStorageService.get('project') || [];
+      $scope.base = localStorageService.get('base') || [];
       $scope.fontStyles = localStorageService.get('fontStyles') || [];
       $scope.activeStyle = $scope.fontStyles[0] || [];
     }
-
     $scope.init();
 
-    /////////////////////////////////////
-    // Setup default project form JSON //
-    /////////////////////////////////////
 
-    if(!localStorageService.get('project') || !localStorageService.get('fontStyles')){
+    // Setup default project form JSON //
+    if(!localStorageService.get('project') || !localStorageService.get('fontStyles') || !localStorageService.get('base')){
 
       console.log("Setting up project…");
       $http.get('/project.json')
       .success(function(data) {
-        localStorageService.set('project', project);
-        localStorageService.set('fontStyles', data);
+        localStorageService.set('project', data['project']);
+        localStorageService.set('base', data['base']);
+        localStorageService.set('fontStyles', data['fontStyles']);
         $scope.init();
       })
       .error(function(data, status) {
@@ -38,10 +43,7 @@
     };
 
 
-    ////////////////////////////////////
     // Autosave changes in fontStyles //
-    ////////////////////////////////////
-
     $scope.$watch('fontStyles', function() {
         // do something here
         localStorageService.set('fontStyles', $scope.fontStyles);
@@ -80,17 +82,17 @@
     $scope.compileStyle = function(){
 
       var css = '';
-      
+
+      css += '#'+$scope.project;
+      css += '{';
+      css += 'font-size:'+$scope.base.fontSize+'px;';
+      css += '} ';
+     
+
       for(var i = 0; i < $scope.fontStyles.length; i += 1){
         
         var style = $scope.fontStyles[i];
-
-        css += '#'+project.title;
-
-        if (style.name != "body"){
-          css += ' '+style.name;
-        }
-
+        css += '#'+$scope.project+' '+style.name;
         css += '{';
         css += 'font-size:'+style.fontSize+'em;';
         css += 'line-height:'+style.lineHeight+'em;';
@@ -104,12 +106,14 @@
   }]);
 
 
+  /////////////////////
+  // EM TO PX FILTER //
+  /////////////////////
+  app.filter('emtopx', function() {
+    return function(value, baseSize) {
+      return value * baseSize;
+    }
+  });
 
-
-
-  // VARIABELS
-  var project = {
-    title: "test-project"
-  };
 
 })();

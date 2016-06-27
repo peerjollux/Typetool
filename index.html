@@ -10,6 +10,9 @@
   <script src="js/angular-sanitize.min.js" type="text/javascript"></script>
   <script src="node_modules/angular-local-storage/dist/angular-local-storage.min.js"></script>
   <script src="js/main.js" type="text/javascript"></script>
+
+  <script src="https://use.typekit.net/igo5vfk.js"></script>
+  <script>try{Typekit.load({ async: true });}catch(e){}</script>
 </head>
 <body ng-controller="StyleController">
   
@@ -29,12 +32,17 @@
   </aside>
   
 
+
   <div class="page">
-    <div class="container" id="{{project.title}}">
+
+    <div class="container" id="{{project}}">
         <style>{{compileStyle()}}</style>
         
         <div ng-repeat="style in fontStyles" ng-click="editStyle(style)" ng-class="{active:isActive(style.id)}" class="fontStyle" >
-        
+          <div class="styleDesc">
+            <span class="styleName">{{style.name}}</span>
+            <span class="styleProp">{{style.fontSize}}REM / {{style.fontSize | emtopx:base.fontSize}}PX</span>
+          </div>
           <div ng-bind-html="style.sample"> </div>
         </div>
 
